@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissor</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #83a4d4, #b6fbff);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .result-box {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #222;
+        }
+
+        .scoreboard span {
+            font-size: 1.2rem;
+            margin: 0 15px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<!--<body>-->
+<!--    <h1>Choose one</h1>-->
+<!--    <br>-->
+<!--    <a href="#" onclick="playRockPaperScissor('rock')">Rock</a> &nbsp;&nbsp;-->
+<!--    <a href="#" onclick="playRockPaperScissor('paper')">Paper</a> &nbsp;&nbsp;-->
+<!--    <a href="#" onclick="playRockPaperScissor('scissor')">Scissor</a> &nbsp;&nbsp;-->
+<!--    <hr/> <br>-->
+<!--    <i><b><h3>-->
+<!--        <div id="results">-->
+
+<!--        </div>-->
+<!--    </h3></b></i>-->
+<!--    <br>-->
+<!--    <span id="wins"><b></b></span> <span id="losses"><b></b></span> <span id="ties"><b></b></span>-->
+<!--</body>-->
+<body>
+<h1>Rock Paper Scissors</h1>
+<div class="button-container">
+    <button onclick="playRockPaperScissor('rock')">🪨 Rock</button>
+    <button onclick="playRockPaperScissor('paper')">📄 Paper</button>
+    <button onclick="playRockPaperScissor('scissor')">✂️ Scissor</button>
+</div>
+
+<div id="results" class="result-box"></div>
+
+<div class="scoreboard">
+    <span id="wins">Wins: 0</span>
+    <span id="losses">Losses: 0</span>
+    <span id="ties">Ties: 0</span>
+</div>
+</body>
+
+<script>
+<!--    playRockPaperScissor = async function(clientGesture){-->
+<!--        url="http://localhost:8080//scores/{changeStateAmount}"-->
+    playRockPaperScissor = async function(clientGesture) {
+        let url = "";
+        let result = "";
+
+        if (clientGesture === 'rock') {
+            result = "tie";
+            url = "http://localhost:8080/scores/ties";
+        } else if (clientGesture === 'paper') {
+            result = "win";
+            url = "http://localhost:8080/scores/wins";
+        } else if (clientGesture === 'scissor') {
+            result = "loss";
+            url = "http://localhost:8080/scores/losses";
+        }
+
+        try{
+            const response = await fetch(url,{method:"POST"});
+            const theScore = await response.json();
+            document.getElementById("wins").innerHTML = "<b> wins: </b>" + theScore.wins;
+            document.getElementById("losses").innerHTML = "<b> losses: </b>" + theScore.losses;
+            document.getElementById("ties").innerHTML = "<b> ties: </b>" + theScore.ties;
+            document.getElementById("results").innerHTML = "The result was a: " + result;
+
+        }catch(error){
+            console.log(error.message);
+        }
+    }
+</script>
+</html>

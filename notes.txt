@@ -1,0 +1,10 @@
+* Why CORS @CrossOrigin is needed?
+By default, browsers block cross-origin HTTP requests for security reasons. For example:
+
+Your Spring Boot backend runs on http://localhost:8080
+
+Your frontend (e.g., React, Angular, etc.) runs on http://localhost:3000
+
+When your frontend tries to call the backend, the browser blocks it unless the backend explicitly allows it using CORS.
+
+@RequestBody annotation converts JSON to Object or Object to JSON.
